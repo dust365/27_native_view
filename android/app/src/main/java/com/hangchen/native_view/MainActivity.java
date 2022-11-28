@@ -19,6 +19,9 @@ import io.flutter.plugin.common.MessageCodec;
 import io.flutter.plugin.common.StandardMessageCodec;
 import io.flutter.plugin.common.BinaryMessenger;
 import android.content.Intent;
+import android.widget.TextView;
+
+import java.util.Map;
 
 public class MainActivity extends FlutterActivity {
   @Override
@@ -34,6 +37,7 @@ public class MainActivity extends FlutterActivity {
 
 
 
+//标准代码
 class SampleViewFactory extends PlatformViewFactory {
   private final BinaryMessenger messenger;
   public SampleViewFactory(BinaryMessenger msger) {
@@ -48,9 +52,9 @@ class SampleViewFactory extends PlatformViewFactory {
 
 class SimpleViewControl implements PlatformView, MethodChannel.MethodCallHandler {
   private final MethodChannel methodChannel;
-  private final View view;
+  private final TextView view;
   public SimpleViewControl(Context context, int id, BinaryMessenger messenger) {
-    view = new View(context);
+    view = new TextView(context);
     view.setBackgroundColor(Color.rgb(255, 0, 0));
 
     methodChannel = new MethodChannel(messenger, "samples.chenhang/native_views_" + id);
@@ -63,7 +67,16 @@ class SimpleViewControl implements PlatformView, MethodChannel.MethodCallHandler
     if (methodCall.method.equals("changeBackgroundColor")) {
       view.setBackgroundColor(Color.rgb(0, 0, 255));
       result.success(0);
-    }else {
+    }
+    if (methodCall.method.equals("setText()")) {
+       //接收参数
+      Map<String, Object> args = methodCall.arguments();
+      String content = (String) args.get("content");
+      view.setText(content);
+      result.success(0);
+    }
+
+    else {
       result.notImplemented();
     }
 
@@ -71,7 +84,7 @@ class SimpleViewControl implements PlatformView, MethodChannel.MethodCallHandler
 
 
   @Override
-  public View getView() {
+  public TextView getView() {
     return view;
   }
   @Override

@@ -37,10 +37,24 @@ class DefaultState extends State<DefaultPage> {
         backgroundColor: Colors.yellowAccent,
         appBar: AppBar(title: Text("Default Page")),
         body:  Center(
-          child: Container(width: 200, height:200,
-              child: SampleView(controller: controller)),
+          child:Column(
+            children: [
+              Container(width: 200, height:200,
+                  child: SampleView(controller: controller)
+              ),
+              new GestureDetector(
+                onTap: (){
+                  controller.setText("你就是一个弟弟对滴滴滴滴滴");
+                },
+                child: Text("变文字"),
+              )
+
+            ],
+          )
+
         ),
-        floatingActionButton: FloatingActionButton(child: Icon(Icons.change_history), onPressed: ()=>controller.changeBackgroundColor())
+        floatingActionButton: FloatingActionButton(child: Icon(Icons.change_history), onPressed: ()=>
+            controller.changeBackgroundColor())
 
     );
   }
@@ -64,12 +78,15 @@ class _SampleViewState extends State<SampleView> {
 
   @override
   Widget build(BuildContext context) {
+
+    //android
     if (defaultTargetPlatform == TargetPlatform.android) {
       return AndroidView(
         viewType: 'SampleView',
         onPlatformViewCreated: _onPlatformViewCreated,
       );
     } else {
+      // ios 端
       return UiKitView(viewType: 'SampleView',
           onPlatformViewCreated: _onPlatformViewCreated
       );
@@ -91,4 +108,12 @@ class NativeViewController {
   {
     _channel.invokeMethod('changeBackgroundColor');
   }
+  setText(String msg) async
+  {
+     Map<String, dynamic> params = <String, dynamic>{
+      'content': msg,
+    };
+    _channel.invokeMethod('setText()',params);
+  }
+
 }
