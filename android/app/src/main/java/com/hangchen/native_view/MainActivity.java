@@ -35,7 +35,6 @@ public class MainActivity extends FlutterActivity  {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 //    GeneratedPluginRegistrant.registerWith(this);
-
 //    PluginRegistry.Registrar registrar = registrarFor("com.hangchen/NativeViews");
 //    SampleViewFactory playerViewFactory = new SampleViewFactory(registrar.messenger());
 //    registrar.platformViewRegistry().registerViewFactory("SampleView", playerViewFactory);
@@ -43,28 +42,10 @@ public class MainActivity extends FlutterActivity  {
   @Override
    public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
     GeneratedPluginRegistrant.registerWith(flutterEngine);
-//    flutterEngine.addEngineLifecycleListener(this);
     BinaryMessenger binaryMessenger = flutterEngine.getDartExecutor().getBinaryMessenger();
-//    PluginRegistry registry = flutterEngine.getPlugins();
     SampleViewFactory playerViewFactory = new SampleViewFactory(binaryMessenger);
-
     PlatformViewRegistry registry = flutterEngine.getPlatformViewsController().getRegistry();
-//    flutterEngine
     registry.registerViewFactory("SampleView", playerViewFactory);
-
-//    PluginRegistry.Registrar registrar = registrarFor("com.hangchen/NativeViews");
-//    SampleViewFactory playerViewFactory = new SampleViewFactory(registrar.messenger());
-//    registrar.platformViewRegistry().registerViewFactory("SampleView", playerViewFactory);
-//
-//    BinaryMessenger binaryMessenger = flutterEngine.getDartExecutor().
-//    BinaryMessenger binaryMessenger = flutterEngine.getDartExecutor().getBinaryMessenger();
-//    new MethodChannel(binaryMessenger, CHANNEL)
-//                           .setMethodCallHandler(
-//                               (call, result) -> {
-//                                     // Your existing code
-//                                      }
-//                            );
-//       }
   }
 }
 
