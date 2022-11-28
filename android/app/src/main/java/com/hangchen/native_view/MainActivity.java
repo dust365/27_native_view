@@ -2,7 +2,12 @@ package com.hangchen.native_view;
 
 import android.net.Uri;
 import android.os.Bundle;
-import io.flutter.app.FlutterActivity;
+//import io.flutter.app.FlutterActivity;
+import io.flutter.embedding.android.FlutterActivity;
+import io.flutter.embedding.engine.FlutterEngine;
+//import io.flutter.plugin.common.PluginRegistry;
+import io.flutter.embedding.engine.plugins.PluginRegistry;
+import io.flutter.plugin.platform.PlatformViewRegistry;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
 import io.flutter.plugin.common.MethodCall;
@@ -21,17 +26,45 @@ import io.flutter.plugin.common.BinaryMessenger;
 import android.content.Intent;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import java.util.Map;
 
-public class MainActivity extends FlutterActivity {
+public class MainActivity extends FlutterActivity  {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    GeneratedPluginRegistrant.registerWith(this);
+//    GeneratedPluginRegistrant.registerWith(this);
 
-    Registrar registrar = registrarFor("com.hangchen/NativeViews");
-    SampleViewFactory playerViewFactory = new SampleViewFactory(registrar.messenger());
-    registrar.platformViewRegistry().registerViewFactory("SampleView", playerViewFactory);
+//    PluginRegistry.Registrar registrar = registrarFor("com.hangchen/NativeViews");
+//    SampleViewFactory playerViewFactory = new SampleViewFactory(registrar.messenger());
+//    registrar.platformViewRegistry().registerViewFactory("SampleView", playerViewFactory);
+  }
+  @Override
+   public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
+    GeneratedPluginRegistrant.registerWith(flutterEngine);
+//    flutterEngine.addEngineLifecycleListener(this);
+    BinaryMessenger binaryMessenger = flutterEngine.getDartExecutor().getBinaryMessenger();
+//    PluginRegistry registry = flutterEngine.getPlugins();
+    SampleViewFactory playerViewFactory = new SampleViewFactory(binaryMessenger);
+
+    PlatformViewRegistry registry = flutterEngine.getPlatformViewsController().getRegistry();
+//    flutterEngine
+    registry.registerViewFactory("SampleView", playerViewFactory);
+
+//    PluginRegistry.Registrar registrar = registrarFor("com.hangchen/NativeViews");
+//    SampleViewFactory playerViewFactory = new SampleViewFactory(registrar.messenger());
+//    registrar.platformViewRegistry().registerViewFactory("SampleView", playerViewFactory);
+//
+//    BinaryMessenger binaryMessenger = flutterEngine.getDartExecutor().
+//    BinaryMessenger binaryMessenger = flutterEngine.getDartExecutor().getBinaryMessenger();
+//    new MethodChannel(binaryMessenger, CHANNEL)
+//                           .setMethodCallHandler(
+//                               (call, result) -> {
+//                                     // Your existing code
+//                                      }
+//                            );
+//       }
   }
 }
 
